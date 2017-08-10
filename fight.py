@@ -219,6 +219,8 @@ def read_opponent_move():
     process_opponent_move(opponent_move)
 
 def switch_on_command():
+    our_move=0;
+    their_move=0;
     while True:
         user_input = raw_input ()
 
@@ -228,9 +230,14 @@ def switch_on_command():
             read_opponent_move()
         elif user_input == "YOUR_MOVE":
             find_next_move()
+            our_move+=1
         elif re.match ('OPPONENT_MOVE', user_input):
             process_opponent_move(user_input)
+            their_move+=1
         elif user_input == "STOP":
+            f.write(str(our_move)+"\n"+str(their_move)+"\n")
+            f.write("Stopping")
+            f.flush()
             sys.exit()
         else:
             print ("Invalid input")
