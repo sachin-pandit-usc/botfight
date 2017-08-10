@@ -54,13 +54,13 @@ def fill_edges(box_x, box_y, edge):
     edges[box_x][box_y][index] = 1
 
 def process_opponent_move(opp_move):
-    coord = opp_move.split(" ")[2]
+    coord = opp_move.split(" ")[1]
     coord1 = int(coord[1])
     coord3 = int(coord[7])
     coord2 = int(coord[3])
     coord4 = int(coord[9])
-    print ("Coords:")
-    print (coord1, coord2, coord3, coord4)
+    #print ("Coords:")
+    #print (coord1, coord2, coord3, coord4)
     fill_board (coord1, coord2, coord3, coord4)
 
 def fill_board (coord1, coord2, coord3, coord4):
@@ -76,7 +76,7 @@ def fill_board (coord1, coord2, coord3, coord4):
     if (box_x >= 0 and box_y >= 0 and box_x < 8 and box_y < 8):
         fill_edges(box_x, box_y, edge)
         fill_values(box_x, box_y)
-    print (box_x, box_y, edge)
+    #print (box_x, box_y, edge)
 
     if (edge == "bottom"):
         edge = "top"
@@ -87,33 +87,36 @@ def fill_board (coord1, coord2, coord3, coord4):
     if (box_x >= 0 and box_y >= 0 and box_x < 8 and box_y < 8):
         fill_edges(box_x, box_y, edge)
         fill_values(box_x, box_y)
-    print (box_x, box_y, edge)
+    #print (box_x, box_y, edge)
 
 
 def print_move(i,j,edge):
     if (edge == "bottom"):
         xcord = i+1
         ycord = j
-        var = "(" + xcord + "," + ycord
-        var += "),(" + xcord + "," + (ycord+1) + ")"
+
+        var = "(" + str(xcord) + "," + str(ycord)
+        var += "),(" + str(xcord) + "," + str(ycord+1) + ")"
 
     if (edge == "right"):
         xcord = i
         ycord = j+1
-        var = "(" + (xcord) + "," + ycord
-        var += "),(" + (xcord+1) + "," + (ycord) + ")"
+        var = "(" + str(xcord) + "," + str(ycord)
+        var += "),(" + str(xcord+1) + "," + str(ycord) + ")"
 
     if (edge == "top"):
         xcord = i
         ycord = j
-        var = "(" + xcord + "," + ycord
-        var += "),(" + xcord + "," + (ycord+1) + ")"
+        var = "(" + str(xcord) + "," + str(ycord)
+        var += "),(" + str(xcord) + "," + str(ycord+1) + ")"
         
     if (edge == "left"):
         xcord = i
         ycord = j
-        var = "(" + (xcord) + "," + ycord
-        var += "),(" + (xcord+1) + "," + (ycord) + ")"
+        var = "(" + str(xcord) + "," + str(ycord)
+        var += "),(" + str(xcord+1) + "," + str(ycord) + ")"
+
+    print var
 
 def cover_edge (i, j):
     edge = ""
@@ -132,26 +135,25 @@ def cover_edge (i, j):
         if (0 == edges[i][j][index]):
             fill_edges(i,j,edge)
             fill_values(i,j)
-            print (i,j,edge)
-            print_move (i,j,move)
+            #print (i,j,edge)
 
             if (edge == "bottom"):
                 edge = "top"
                 i+=1
-            if (edge == "right"):
+            elif (edge == "right"):
                 edge = "left"
                 j+=1
-            if (edge == "top"):
+            elif (edge == "top"):
                 edge = "bottom"
                 i-=1
-            if (edge == "left"):
+            elif (edge == "left"):
                 edge = "right"
                 j-=1
             if (i >= 0 and j >= 0 and i < 8 and j < 8):
                 fill_edges(i, j, edge)
                 fill_values(i, j)
-                print (i,j,edge)
-                print_move (i,j,move)
+                #print (i,j,edge)
+            print_move (i,j,edge)
             break
 
 def find_box_and_fill(num):
@@ -166,7 +168,6 @@ def find_box_and_fill(num):
     return 0
 
 def find_next_move():
-    print ("dummy move")
     ret = find_box_and_fill (3)
     if (1 == ret):
         return
@@ -197,14 +198,14 @@ def switch_on_command():
             read_opponent_move()
         elif user_input == "YOUR MOVE":
             find_next_move()
-        elif re.match ('OPPONENT MOVE', user_input):
+        elif re.match ('OPPONENT_MOVE', user_input):
             process_opponent_move(user_input)
         elif user_input == "STOP":
             sys.exit()
         else:
             print ("Invalid input")
             sys.exit(1)
-        display_edges()
-        display_values()
+        #display_edges()
+        #display_values()
 
 switch_on_command()
