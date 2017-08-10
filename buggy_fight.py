@@ -5,6 +5,7 @@ from collections import defaultdict
 import math
 from random import randint
 
+var = ""
 namma_boxes=0
 n = 9
 edges={}
@@ -102,6 +103,7 @@ def fill_board (coord1, coord2, coord3, coord4):
 
 def print_move(i,j,edge):
     global f
+    global var
     if (edge == "bottom"):
         xcord = i+1
         ycord = j
@@ -127,10 +129,8 @@ def print_move(i,j,edge):
         var = "(" + str(xcord) + "," + str(ycord)
         var += "),(" + str(xcord+1) + "," + str(ycord) + ")"
 
-    print var
     f.write(var+'\n')
     f.flush()
-    sys.stdout.flush()
 
 def cover_edge (i, j):
     edge = ""
@@ -200,27 +200,41 @@ def find_box_and_fill(num):
 
 def find_next_move():
     global f
+    global var
+
     f.write("Here 3\n")
     ret = find_box_and_fill (3)
     if (1 == ret):
         f.write("Got box!\n")
         namma_boxes+=1
         f.flush()
+        sys.stdout.flush()
+        print var
+        sys.stdout.flush()
         return
 
     f.write("Here 0\n")
     ret = find_box_and_fill (0)
     if (1 == ret):
+        sys.stdout.flush()
+        print var
+        sys.stdout.flush()
         return
 
     f.write("Here 1\n")
     ret = find_box_and_fill (1)
     if (1 == ret):
+        sys.stdout.flush()
+        print var
+        sys.stdout.flush()
         return
 
     f.write("Here 2\n")
     ret = find_box_and_fill (2)
     if (1 == ret):
+        sys.stdout.flush()
+        print var
+        sys.stdout.flush()
         return
 
 def read_opponent_move():
@@ -233,8 +247,12 @@ def switch_on_command():
         user_input = raw_input ()
 
         if user_input == "START 1":
+            f.write("We are player 1\n")
+            f.flush()
             find_next_move()
         elif user_input == "START 2":
+            f.write("We are player 2\n")
+            f.flush()
             read_opponent_move()
         elif user_input == "YOUR_MOVE":
             find_next_move()
